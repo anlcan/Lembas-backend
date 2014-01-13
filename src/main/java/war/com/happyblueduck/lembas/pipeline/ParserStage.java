@@ -1,12 +1,13 @@
 package com.happyblueduck.lembas.pipeline;
 
 
+import com.happyblueduck.lembas.core.LembasUtil;
+import com.happyblueduck.lembas.core.UtilSerializeException;
+import com.happyblueduck.lembas.processing.LembasActionContext;
+import com.happyblueduck.lembas.processing.LembasProcessRequest;
+import com.happyblueduck.lembas.processing.RequestProcessException;
 import com.ideaimpl.patterns.pipeline.PipelineContext;
 import com.ideaimpl.patterns.pipeline.Stage;
-import com.happyblueduck.lembas.core.LembasRequest;
-import com.happyblueduck.lembas.core.LembasUtil;
-import com.happyblueduck.lembas.core.RequestProcessException;
-import com.happyblueduck.lembas.core.UtilSerializeException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -47,7 +48,7 @@ public class ParserStage implements Stage {
                 if ( jsonRequest == null)
                     throw new RequestProcessException("unknown request", "request wrapper not found in :" + wrappedJsonRequest.toJSONString());
 
-            handsomeContext.request = (LembasRequest) LembasUtil.deserialize(jsonRequest);
+            handsomeContext.request = (LembasProcessRequest) LembasUtil.deserialize(jsonRequest);
 
             if ( handsomeContext.request.verb == null){
                 if ( handsomeContext.request.getClass().getSimpleName().endsWith("Request")){

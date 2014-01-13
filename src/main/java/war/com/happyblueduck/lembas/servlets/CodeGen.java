@@ -36,7 +36,7 @@ public class CodeGen extends HttpServlet {
     public static final String PHONGAP      = "phonegap";
 
 
-    public static final String HTTP_SYNC_SERVER_APPSPOT_COM     = "http://voxo.sync-server.appspot.com";
+    public static final String HTTP_SYNC_SERVER_APPSPOT_COM     = "http://yoxo.sync-server.appspot.com";
 //    public static final String HTTP_SYNC_SERVER_APPSPOT_COM     = "http://localhost:8888";
 
     public  String codeGenerator(String target)
@@ -53,7 +53,7 @@ public class CodeGen extends HttpServlet {
         wrapper.put("host", Config.HOST_URL);
         wrapper.put("port", Config.HOST_PORT);
         wrapper.put("objects", objects);
-        wrapper.put("package", "com.lembas.lembas."+  Config.serviceName.toLowerCase());
+        wrapper.put("package", "com.happyblueduck.lembas."+  Config.serviceName.toLowerCase());
 
         /* dummy params */
         wrapper.put("version", "1.0");

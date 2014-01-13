@@ -1,4 +1,4 @@
-package com.happyblueduck.lembas.core;
+package com.happyblueduck.lembas.processing;
 
 /**
  * Created by IntelliJ IDEA.

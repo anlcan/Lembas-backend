@@ -1,9 +1,10 @@
 package com.happyblueduck.lembas.pipeline;
 
-import com.ideaimpl.patterns.pipeline.PipelineContext;
-import com.ideaimpl.patterns.pipeline.Stage;
 import com.happyblueduck.lembas.commons.LembasFault;
 import com.happyblueduck.lembas.core.LembasUtil;
+import com.happyblueduck.lembas.processing.LembasActionContext;
+import com.ideaimpl.patterns.pipeline.PipelineContext;
+import com.ideaimpl.patterns.pipeline.Stage;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
