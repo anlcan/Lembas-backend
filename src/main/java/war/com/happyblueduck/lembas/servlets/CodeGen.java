@@ -67,19 +67,6 @@ public class CodeGen extends HttpServlet {
         return result;
     }
 
-//    public  StreamingOutput downloadCode(final String target, final int port){
-//
-//        StreamingOutput str = new StreamingOutput() {
-//            @Override
-//            public void write(OutputStream outputStream) throws IOException, WebApplicationException {
-//                writeDownloadedCode(target, port, outputStream);
-//            }
-//        };
-//
-//        return str;
-//    }
-
-
     public  void writeDownloadedCode(String target, OutputStream output){
 
 

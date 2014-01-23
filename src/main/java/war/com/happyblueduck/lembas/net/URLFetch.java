@@ -1,17 +1,15 @@
 package com.happyblueduck.lembas.net;
 
-import com.google.appengine.api.urlfetch.*;
-import com.google.common.base.Joiner;
+//import com.google.appengine.api.urlfetch.*;
+//import com.google.common.base.Joiner;
 import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.google.appengine.api.urlfetch.FetchOptions.Builder.doNotValidateCertificate;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,18 +42,18 @@ public class URLFetch {
     }
 
     public static String serializeParams(HashMap<String, String> params){
-        ArrayList<String> queryList = new ArrayList<String>();
+        // FIXME srsly?
+        String queryParam = "";
 
         if (params != null) {
             for (String key : params.keySet()) {
                 String value = params.get(key);
-                queryList.add(key+"="+value);
+                queryParam.concat(key+"="+value+"&");
             }
         }
 
-        return Joiner.on("&").join(queryList);
+        return  queryParam;
     }
-
 
 
     public String POST(String path, HashMap<String, String> params, String data){
@@ -85,8 +83,8 @@ public class URLFetch {
             urlString = baseUrl+path;
 
         try {
-            //return readStream(getURL(urlString, method, data), encoding);
-            return fetchWithService(urlString, method, data);
+            execute(urlString, method, data);
+
         } catch (IOException e) {
             e.printStackTrace();
             logger.error("URLFetch failed: " + urlString);
@@ -96,31 +94,8 @@ public class URLFetch {
         return null;
     }
 
-    public String fetchWithService(String urlString,String  method,String  data) throws IOException {
-
-        URL url = new URL(urlString);
-        HTTPRequest request = new HTTPRequest(url, HTTPMethod.valueOf(method),
-                doNotValidateCertificate());
-
-        request.getFetchOptions().setDeadline(60d);
-        if (data != null)
-            request.setPayload(data.getBytes());
-
-        for (String name : headers.keySet())
-            request.setHeader(new HTTPHeader(name, headers.get(name)));
-
-        if ( basicAuthentication != null)
-            request.setHeader(new HTTPHeader("Authorization", basicAuthentication));
-
-        /* caching stuff*/
-        request.setHeader(new HTTPHeader("Cache-Control", "no-cache, max-age=0"));
-        request.setHeader(new HTTPHeader("Pragma", "no-cache"));
-
-        HTTPResponse response = URLFetchServiceFactory.getURLFetchService().fetch(request);
-
-        this.statusCode = response.getResponseCode();
-
-        return new String(response.getContent());
+    public String execute(String urlString, String method,String data) throws IOException {
+        return readStream(getURL(urlString, method, data), encoding);
     }
 
     public InputStream getURL(String urlString, String method, String data){
