@@ -48,7 +48,7 @@ public class URLFetch {
         if (params != null) {
             for (String key : params.keySet()) {
                 String value = params.get(key);
-                queryParam.concat(key+"="+value+"&");
+                queryParam = queryParam.concat(key+"="+value+"&");
             }
         }
 
@@ -68,8 +68,8 @@ public class URLFetch {
         return fetch(path, null, "DELETE", null);
     }
 
-    public String PUT(String path, String data){
-        return fetch(path, null, "PUT", null);
+    public String PUT(String path, String data) {
+        return fetch(path, null, "PUT", data);
     }
 
 
@@ -83,7 +83,7 @@ public class URLFetch {
             urlString = baseUrl+path;
 
         try {
-            execute(urlString, method, data);
+            return execute(urlString, method, data);
 
         } catch (IOException e) {
             e.printStackTrace();
