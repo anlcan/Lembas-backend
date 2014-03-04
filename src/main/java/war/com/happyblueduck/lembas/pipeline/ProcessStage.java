@@ -14,6 +14,9 @@ import com.ideaimpl.patterns.pipeline.Stage;
  */
 public class ProcessStage implements Stage {
 
+    public static final String PROCESS_SERIALIZE_EXCEPTION  = "511";
+    public static final String PROCESS_EXECUTION_EXCEPTION  = "212";
+    public static final String PROCESS__EXCEPTION           = "500";
 
     @Override
     public void execute(PipelineContext context) {
@@ -21,20 +24,19 @@ public class ProcessStage implements Stage {
         LembasActionContext handsomeContext = (LembasActionContext) context;
 
         try{
-
             handsomeContext.response = handsomeContext.request.process(handsomeContext);
-
-
         } catch ( UtilSerializeException exception){
-            exception.printStackTrace();
-            handsomeContext.addError(new LembasError("511", "Cannot serialize action response", exception));
-
+            handsomeContext.addError(new LembasError(
+                    PROCESS_SERIALIZE_EXCEPTION,
+                    "Cannot serialize action response", exception));
         } catch (RequestProcessException exception) {
-            exception.printStackTrace();
-            handsomeContext.addError(new LembasError("212", "Failed processing action request", exception));
+            handsomeContext.addError(new LembasError(
+                    PROCESS_EXECUTION_EXCEPTION,
+                    "Failed processing action request", exception));
         } catch (Exception exception){
-            exception.printStackTrace();
-            handsomeContext.addError(new LembasError("500", "Failed executing action request", exception));
+            handsomeContext.addError(new LembasError(
+                    PROCESS__EXCEPTION,
+                    "Failed executing action request", exception));
         }
     }
 }

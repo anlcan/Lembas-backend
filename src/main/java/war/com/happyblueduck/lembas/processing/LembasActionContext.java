@@ -30,4 +30,15 @@ public class LembasActionContext extends PipelineContextAdaptor {
 
     public Logger logger;
 
+
+    public Object getSessionAttribute(String key){
+       return servletRequest.getSession().getAttribute(key);
+    }
+
+    public void setSessionAttribute(String key, Object value){
+        servletRequest.getSession().setAttribute(key, value);
+    }
+
 }
+
+

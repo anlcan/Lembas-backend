@@ -22,7 +22,7 @@ public class DispatcherFilter implements Filter {
 
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         /*
-        * OPEN THIS IF YOU NEED DEBUGGING ON EVERY REQUEST
+        * UNCOMMENT THIS IF YOU NEED DEBUGGING ON EVERY REQUEST
         Enumeration headerNames = httpRequest.getHeaderNames();
 
         while(headerNames.hasMoreElements()) {

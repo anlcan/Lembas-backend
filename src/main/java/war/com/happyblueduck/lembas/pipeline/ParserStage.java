@@ -24,6 +24,9 @@ import java.io.Reader;
  * Time: 5:06 PM
  */
 public class ParserStage implements Stage {
+
+    public static final String IO_ERROR_CODE = "504";
+
     @Override
     public void execute(PipelineContext context) {
 
@@ -62,7 +65,7 @@ public class ParserStage implements Stage {
 
         } catch(IOException exception){
             handsomeContext.logger.error(exception.getStackTrace().toString());
-            handsomeContext.addError(new LembasError("504", "Failed to read raw LembasRequest", exception));
+            handsomeContext.addError(new LembasError(IO_ERROR_CODE, "Failed to read raw LembasRequest", exception));
         } catch (RequestProcessException e) {
             handsomeContext.addError(new LembasError("512", "Failed create object from input", e));
 

@@ -64,7 +64,7 @@ public class KeenIO{
     }
     public static String runQuery(String collection, String query, String targetProperty, String timeFrame, String filters){
 
-            URLFetch fetch = new URLFetch(KEENIO_HOST);
+        URLFetch fetch = new URLFetch(KEENIO_HOST);
         fetch.headers.put("Content-Type", "application/json");
 
         String path = getQueryPath(query);
@@ -143,7 +143,8 @@ public class KeenIO{
             this.query = "sum";
             this.targetProperty = targetProperty;
             String filters =  this.filters.json();
-            return (Double) parseResult(runQuery(collection, query, targetProperty, timeFrame, filters));
+            Number n = (Number) parseResult(runQuery(collection, query, targetProperty, timeFrame, filters));
+            return n.doubleValue();
         }
 
         public Long count(){

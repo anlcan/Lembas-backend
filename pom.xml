@@ -12,7 +12,7 @@
 
     <properties>
         <appengine.app.version>1</appengine.app.version>
-        <appengine.target.version>1.8.8</appengine.target.version>
+        <appengine.target.version>1.9.0</appengine.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     </properties>
@@ -37,8 +37,7 @@
             <uniqueVersion>false</uniqueVersion>
             <id>happyblueduck</id>
             <name>Lembas GAE backend</name>
-            <url>ftp://happyblueduck.com/public_html/maven/${project.artifactId}</url>
-            <layout>default</layout>
+            <url>ftp://happyblueduck.com/public_html/maven</url>
         </repository>
     </distributionManagement>
 

@@ -37,9 +37,9 @@ public class ErrorStage implements Stage {
             }
             fault.stacktrace = trace;
         }
-        fault.exceptionName = error.getErrorDescription().getClass().getSimpleName();
-        fault.message =  error.getErrorDescription();
-        fault.visibleMessage = error.getRelatedException().getLocalizedMessage();
+        fault.exceptionName     = error.getClass().getSimpleName();
+        fault.message           = error.getErrorDescription();
+        fault.visibleMessage    = error.getRelatedException().getLocalizedMessage();
 
         // this way, we ensure result stage returns a valid LembasResponse
         handsomeContext.response = fault;
