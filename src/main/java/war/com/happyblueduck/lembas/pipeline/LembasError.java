@@ -16,5 +16,4 @@ public class LembasError extends BaseError {
     public LembasError(String errorCode, String errorDescription) {
         super(errorCode, errorDescription, new RuntimeException(errorDescription));
     }
-
 }

@@ -15,7 +15,7 @@ import com.ideaimpl.patterns.pipeline.Stage;
 public class ProcessStage implements Stage {
 
     public static final String PROCESS_SERIALIZE_EXCEPTION  = "511";
-    public static final String PROCESS_EXECUTION_EXCEPTION  = "212";
+    public static final String PROCESS_EXECUTION_EXCEPTION  = "512";
     public static final String PROCESS__EXCEPTION           = "500";
 
     @Override

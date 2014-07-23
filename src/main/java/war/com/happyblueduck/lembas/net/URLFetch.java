@@ -67,6 +67,9 @@ public class URLFetch {
     public String DELETE(String path){
         return fetch(path, null, "DELETE", null);
     }
+    public String DELETE(String path,  HashMap<String, String>  params){
+        return fetch(path, params, "DELETE", null);
+    }
 
     public String PUT(String path, String data) {
         return fetch(path, null, "PUT", data);

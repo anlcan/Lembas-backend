@@ -21,6 +21,8 @@ public class KeenIO{
     public static String WRITE_API_KEY;
     public static String READ_API_KEY;
 
+    public static String MASTER_KEY;
+
     public static String getPath(String collection){
         return String.format("/%s/projects/%s/events/%s", KEENIO_VERSION, PROJECT_ID, collection);
     }
@@ -29,27 +31,48 @@ public class KeenIO{
         return String.format("/%s/projects/%s/queries/%s", KEENIO_VERSION, PROJECT_ID, query);
     }
 
-    public static String sendEvent(String collection, String jsonContent){
-
+    private static URLFetch vessel(){
         if (WRITE_API_KEY == null){
-            return "KEEN-IO API KEY IS MISSING. Please setup the api key";
+            throw new RuntimeException( "KEEN-IO API KEY IS MISSING. Please setup the api key");
         }
 
         if (PROJECT_ID == null){
-            return "KEEN-IO PROJECT_ID IS MISSING. Please setup the project id";
+            throw new RuntimeException( "KEEN-IO PROJECT_ID IS MISSING. Please setup the project id");
         }
 
 
         URLFetch fetch = new URLFetch(KEENIO_HOST);
         fetch.headers.put("Content-Type", "application/json");
 
-        String path = getPath(collection);
+        return fetch;
+    }
+
+    private static HashMap<String, String> getParams() {
         HashMap<String, String>params = new HashMap<>();
         params.put("api_key", WRITE_API_KEY);
+        return params;
+    }
 
-        String result = fetch.POST(path,params, jsonContent);
+    public static String sendEvent(String collection, String jsonContent){
 
-        return result;
+        URLFetch fetch = vessel();
+
+        String path = getPath(collection);
+        HashMap<String, String> params = getParams();
+
+        return fetch.POST(path,params, jsonContent);
+    }
+
+
+    public static String deleteEvent(String collection, FilterList filters){
+
+        URLFetch fetch = vessel();
+        String path = getPath(collection);
+        HashMap<String, String> params = getParams();
+        params.put("api_key", MASTER_KEY);
+        params.put("filters", filters.json());
+
+        return fetch.DELETE(path, params);
     }
 
 
@@ -91,14 +114,17 @@ public class KeenIO{
     private static Object parseResult(String jsonResult) {
 
         JSONObject obj = (JSONObject) JSONValue.parse(jsonResult);
+        if ( obj.get("error_code") != null){
+            throw new RuntimeException((String) obj.get("message"));
+        }
         return  obj.get("result");
     }
 
-    public static final class Filters{
+    public static final class FilterList {
 
         JSONArray filterList;
 
-        public Filters(){
+        public FilterList(){
              filterList = new JSONArray();
         }
 
@@ -132,25 +158,62 @@ public class KeenIO{
         public String query;
         public String timeFrame;
         public String targetProperty;
-        public Filters filters;
+        public FilterList filterList;
+
+        private URLFetch fetch;
 
         public Query(String collection) {
             this.collection = collection;
-            this.filters = new Filters();
+            this.filterList = new FilterList();
         }
 
         public Double sum(String targetProperty){
             this.query = "sum";
             this.targetProperty = targetProperty;
-            String filters =  this.filters.json();
+            String filters =  this.filterList.json();
             Number n = (Number) parseResult(runQuery(collection, query, targetProperty, timeFrame, filters));
             return n.doubleValue();
         }
 
         public Long count(){
             this.query = "count";
-            String filters =  this.filters.json();
+            String filters =  this.filterList.json();
             return (Long) parseResult(runQuery(collection, query, null, timeFrame, filters));
+        }
+
+        public Boolean delete(String key, String value){
+
+            this.filterList.addEqualFilter(key, value);
+            run();
+
+            return fetch.statusCode == 204;
+        }
+
+
+        public String run() {
+
+            fetch = new URLFetch(KEENIO_HOST);
+            fetch.headers.put("Content-Type", "application/json");
+
+            String path = getQueryPath(query);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("api_key", READ_API_KEY);
+            params.put("event_collection", collection);
+
+            params.put("timezone", "7200"); // FIXME
+
+            if (timeFrame != null)
+                params.put("timeframe", timeFrame);
+
+
+            if (targetProperty != null)
+                params.put("target_property", targetProperty);
+
+            if (filterList != null) {
+                params.put("filters", filterList.json());
+            }
+
+            return fetch.GET(path, params);
         }
 
     }
