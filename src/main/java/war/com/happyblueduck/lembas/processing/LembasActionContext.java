@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 
 /**
@@ -26,10 +27,12 @@ public class LembasActionContext extends PipelineContextAdaptor {
 
     public String inputString;
     public String outputString;
-
-
     public Logger logger;
 
+    public String language;
+    public String clientIP;
+
+    public HashMap<String, Object> contextPayload = new HashMap<>();
 
     public Object getSessionAttribute(String key){
        return servletRequest.getSession().getAttribute(key);

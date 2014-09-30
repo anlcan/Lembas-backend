@@ -60,7 +60,5 @@ public class ResultStage implements Stage{
             logger.error("json received: " + handsomeContext.inputString);
             e.printStackTrace();
         }
-
-
     }
 }
