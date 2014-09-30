@@ -1,14 +1,17 @@
 ## Lembas-Backend		
-Lembas-Backend is the service development part of the Lembas project. 
+Lembas-Backend is the service part of the [Lembas]( http://anlcan.github.io/Lembas/)
 
-[Lembas-core](https://github.com/anlcan/Lembas-core) allows you to define data types(artifacts) and service interfaces(endpoints), Lembas-Backend on the other hand helps you generate description file based on your artifacts and enpoints, generate source code to be used to eaisly build mobile clients that communicates with the backend.
+[Lembas-core](https://github.com/anlcan/Lembas-core) allows you to define data types(artifacts) and service interfaces(endpoints) that are capable of generating self descriptions.
+
+
+Lembas-Backend on the other hand helps you build a service using Lembas-core objects (artifacts and endpoints), builds service description file, generate source code to  build mobile clients and process their endpoint calls.
 
 * [Getting started]()
-* * [Maven depencies](#Maven depencies)
+* * [Maven depencies](#Maven)
 * * [CodeGenerator](#CodeGenerator)
 * * [Dispatcher](#Dispatcher)
 * * [Configuration](#Configuration)
-* [Hello World](#Hello World)
+* [Hello World](#Hello)
 * * [Endpoints](#Endpoints)
 * * [Artifacts](#Artifacts)
 * [Notes](#Notes)
@@ -18,7 +21,7 @@ Lembas-Backend is the service development part of the Lembas project.
 ### Getting started
 
 #### Maven depencies
-<a name="Maven depencies"></a>
+<a name="Maven"></a>
 Add maven dependencies to your project
 
 ```xml
@@ -38,7 +41,7 @@ Lembas needs two servlet entry, one for generating source code and another one f
 
 #### CodeGenerator
 <a name="CodeGenerator"></a>
-Add code generation servlet *com.happyblueduck.lembas.servlets.CodeGen* to your *web.xml*. It is responsable from generating a description file of your project according to [Configuration]() , sending that description file to code generator and zipping the result. 
+Add code generation servlet *com.happyblueduck.lembas.servlets.CodeGen* to your *web.xml*. It is responsible from generating a description file of your project according to [Configuration](#Configuration) , sending that description file to code generator and zipping the result.
 
 ```xml
 	<servlet>
@@ -116,6 +119,7 @@ You can now configure your *MobileDispatcher* by overriding [init()](http://docs
 If you start your server and go to [http://localhost:8080/lembas?target=objc](http://localhost:8080/lembas?target=objc), you should be able to download zipped source files iOS, which you can use with [Lembas-ios](https://github.com/anlcan/Lembas-ios). 
 
 ### Hello World
+<a name="Hello"></a>
 
 #### Endpoints
 <a name="Endpoints"></a>
@@ -214,3 +218,4 @@ If you generate the iOS source code now from [http://localhost:8080/lembas?targe
 
 - in order to create endpoint XXX you must create XXXRequest and XXXResponse respectively
 - private fields and fields name which starts with "_" are excluded from generated source codes
+- [Configuration](#Configuration) is more likely to made in a  [ServletContextListener](http://docs.oracle.com/javaee/6/api/javax/servlet/ServletContextListener.html) for it is only need to run once, but it is moved to Servlet for the sake of brevity.
