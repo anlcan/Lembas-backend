@@ -22,7 +22,7 @@ Lembas-Backend is the service development part of the Lembas project.
 #### Maven depencies
 Add maven dependencies to your project
 
-```
+```xml
 	<dependency>
           <groupId>com.happyblueduck.lembas</groupId>
           <artifactId>lembas-core</artifactId>
@@ -40,7 +40,7 @@ Lembas needs two servlet entry, one for generating source code and another one f
 #### CodeGenerator
 Add code generation servlet *com.happyblueduck.lembas.servlets.CodeGen* to your *web.xml*. It is responsable from generating a description file of your project according to [Configuration]() , sending that description file to code generator and zipping the result. 
 
-```	
+```xml
 	<servlet>
         <servlet-name>Codegen</servlet-name>
         <servlet-class>com.happyblueduck.lembas.servlets.CodeGen</servlet-class>
@@ -55,7 +55,7 @@ Add code generation servlet *com.happyblueduck.lembas.servlets.CodeGen* to your 
 #### Dispatcher
 For serving LembasRequests, you need to extend *com.happyblueduck.lembas.servlets.Dispatcher* (thoght you can also directly use it, extending will give you more control) . Create a new java file named *MobileDispatcher* :
 	
-```
+```java
 	package com.happyblueduck.application; 
 	
 	import com.happyblueduck.lembas.servlets.Dispatcher;
@@ -86,7 +86,7 @@ For serving LembasRequests, you need to extend *com.happyblueduck.lembas.servlet
 
 You can now add your dispatcher to *web.xml*
 
-```
+```xml
     <servlet>
         <servlet-name>Dispatcher</servlet-name>
         <servlet-class>com.happyblueduck.application.MobileDispatcher</servlet-class>
@@ -100,7 +100,7 @@ You can now add your dispatcher to *web.xml*
 #### Configuration
 You can now configure your *MobileDispatcher* by overriding [init()](http://docs.oracle.com/javaee/6/api/javax/servlet/GenericServlet.html#init%28%29) method
 
-```
+```java
  	@Override
  	public void init() throws ServletException {
 		//service name and servlet url-mapping should match
