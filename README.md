@@ -120,7 +120,7 @@ You need artifacts and enpoints to be able to generate code and make request to 
 
 Create a package in your project *com.happyblueduck.enpoints* and add your first endpoint by extending LembasRequest...
 
-```
+```java
 
 	package com.happyblueduck.enpoints;
 
@@ -152,8 +152,6 @@ Create a package in your project *com.happyblueduck.enpoints* and add your first
 
 	import com.happyblueduck.lembas.core.LembasResponse;
 
-	
-
 	public class HelloWorldResponse extends LembasResponse {
 		public String message; 
 	}
@@ -164,6 +162,7 @@ Create a package in your project *com.happyblueduck.enpoints* and add your first
 We can also add an artifact to our backend. Create a package named *com.happyblueduck.artifact* and add an artifact by extending LembasObject:
 
 
+```java
 	package com.happyblueduck.artifacts;
 	
 	import com.happyblueduck.lembas.core.LembasObject
@@ -185,11 +184,12 @@ We can also add an artifact to our backend. Create a package named *com.happyblu
 		public ArrayList<HelloArtifact> artifacst; 
 		
 	}
-	
+```
+
 Now that we have our first endpoint, we should update our Configuration:
 	
 
-```
+```java
  	@Override
  	public void init() throws ServletException {
 		//service name and servlet url-mapping should match
@@ -203,7 +203,7 @@ Now that we have our first endpoint, we should update our Configuration:
     }
 ```
 
-If you generate the iOS source code now from [http://localhost:8080/lembas?target=objc](http://localhost:8080/lembas?target=objc), you wiil see HelloRequest, HelloResponse and HelloArtifact classses. You can now make service calls using [Lembas-ios](https://github.com/anlcan/Lembas-ios). 
+If you generate the iOS source code now from [http://localhost:8080/lembas?target=objc](http://localhost:8080/lembas?target=objc), you will see HelloRequest, HelloResponse and HelloArtifact classes. You can now make service calls using [Lembas-ios](https://github.com/anlcan/Lembas-ios).
 
 ### Notes
 	
