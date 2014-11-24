@@ -194,7 +194,7 @@ We can also add an artifact to our backend. Create a package named *com.happyblu
 	}
 ```
 
-Now that we have our first endpoint, we should update our Configuration:
+Now that we have our first endpoint and an artifact, we should update our Configuration:
 	
 
 ```java
@@ -207,7 +207,9 @@ Now that we have our first endpoint, we should update our Configuration:
         Config.HOST_PORT    = "8080"
         
         // endpoints and artifacts are added by packages
-        Config.addEndpoint("com.happyblueduck.enpoints"); 
+        Config.addEndpoint("com.happyblueduck.endpoints");
+        Config.addArtifact("com.happyblueduck.artifacts");
+
     }
 ```
 

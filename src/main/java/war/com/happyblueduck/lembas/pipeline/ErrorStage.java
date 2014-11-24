@@ -31,7 +31,7 @@ public class ErrorStage implements Stage {
             String trace  = "";
             int i = 0;
             for ( StackTraceElement element : error.getRelatedException().getStackTrace()){
-                trace = trace+"\n\t"+element.toString();
+                trace += element.toString() +"|";
                 if ( i++ == NUMBER_OF_STACK_TRACE)
                     break;
             }
