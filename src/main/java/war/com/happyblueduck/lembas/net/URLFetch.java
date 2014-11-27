@@ -126,7 +126,7 @@ public class URLFetch {
             if (data != null) {
 
                 connection.setDoOutput(true);
-                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), encoding);
                 writer.write(data);
                 writer.close();
             }
