@@ -19,6 +19,7 @@ import java.util.HashMap;
  */
 public class URLFetch {
 
+
     private static final Logger logger = Logger.getLogger(URLFetch.class.getName());
 
     public String baseUrl;
@@ -31,9 +32,10 @@ public class URLFetch {
     public  String encoding = "UTF-8";
     public static final int CONNECTION_TIMEOUT = 45 * 1000;
 
+    public URLFetchWriter urlFetchWriter;
+
     public URLFetch() {
         this.headers = new HashMap<String, String>();
-
     }
 
     public URLFetch(String url) {
@@ -97,11 +99,28 @@ public class URLFetch {
         return null;
     }
 
-    public String execute(String urlString, String method,String data) throws IOException {
+    public String execute(String urlString, String method,final String data) throws IOException {
+        // this is the basic writing operation
+        urlFetchWriter = new URLFetchWriter() {
+            @Override
+            public void write(HttpURLConnection connection) throws IOException {
+                if (data != null) {
+                    connection.setDoOutput(true);
+                    OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), encoding);
+                    writer.write(data);
+                    writer.close();
+                }
+            }
+        };
+
+
+
         return readStream(getURL(urlString, method, data), encoding);
     }
 
-    public InputStream getURL(String urlString, String method, String data){
+
+
+    public InputStream getURL(String urlString, String method, String content) {
 
         long start = System.currentTimeMillis();
 
@@ -119,23 +138,24 @@ public class URLFetch {
             connection.addRequestProperty("Cache-Control", "no-cache,max-age=0");
             connection.addRequestProperty("Pragma", "no-cache");
 
-            if ( basicAuthentication != null){
-                connection.setRequestProperty ("Authorization", basicAuthentication);
+            if (basicAuthentication != null) {
+                connection.setRequestProperty("Authorization", basicAuthentication);
             }
 
-            if (data != null) {
+            urlFetchWriter.write(connection);
 
-                connection.setDoOutput(true);
-                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), encoding);
-                writer.write(data);
-                writer.close();
-            }
+//            if ( content != null) {
+//                connection.setDoOutput(true);
+//                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), encoding);
+//                writer.write(content);
+//                writer.close();
+//            }
 
-            long end =  System.currentTimeMillis();
-            long duration   = end - start;
+            long end = System.currentTimeMillis();
+            long duration = end - start;
             this.statusCode = connection.getResponseCode();
 
-            logger.info(String.format("%s finished with %d in %d", url.toString(), statusCode,duration));
+            logger.info(String.format("%s finished with %d in %d", url.toString(), statusCode, duration));
 
             if (statusCode == HttpURLConnection.HTTP_OK) {
                 // OK
